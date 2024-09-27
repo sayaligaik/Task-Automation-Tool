@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Task Automation Tool</title>
+</head>
+<body>
+    <header>
+        <h1>Task Automation Tool</h1>
+        <nav>
+            <a href="tasks.html">View Tasks</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Add a New Task</h2>
+        <form id="task-form">
+            <label for="name">Task Name:</label>
+            <input type="text" id="name" required>
+            <label for="description">Description:</label>
+            <textarea id="description" required></textarea>
+            <label for="schedule">Schedule:</label>
+            <input type="text" id="schedule" placeholder="e.g., Every 10 minutes" required>
+            <button type="submit">Add Task</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const schedule = document.getElementById('schedule').value;
+
+            fetch('/api/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, description, schedule })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Task added successfully!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
